@@ -1,3 +1,5 @@
+# This project is a toy project for training and quality assurance purposes
+
 # Task 1
 
 - Read the file setup.md to setup project
