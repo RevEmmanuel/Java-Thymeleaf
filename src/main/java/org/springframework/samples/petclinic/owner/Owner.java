@@ -54,6 +54,10 @@ public class Owner extends Person {
 	@NotBlank
 	private String city;
 
+	@Column(name = "password")
+	@NotBlank
+	private String password;
+
 	@Column(name = "telephone")
 	@NotBlank
 	@Digits(fraction = 0, integer = 10)
@@ -169,6 +173,14 @@ public class Owner extends Person {
 		Assert.notNull(pet, "Invalid Pet identifier!");
 
 		pet.addVisit(visit);
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

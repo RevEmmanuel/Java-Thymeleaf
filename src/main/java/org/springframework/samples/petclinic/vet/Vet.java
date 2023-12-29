@@ -45,6 +45,8 @@ import jakarta.xml.bind.annotation.XmlElement;
 @Table(name = "vets")
 public class Vet extends Person {
 
+	private String country;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
 			inverseJoinColumns = @JoinColumn(name = "specialty_id"))
@@ -76,4 +78,11 @@ public class Vet extends Person {
 		getSpecialtiesInternal().add(specialty);
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
 }

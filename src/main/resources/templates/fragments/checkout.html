@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+</head>
+<body>
+<h2>Checkout</h2>
+<div>
+  <p th:text="'Service: ' + ${serviceName}"></p>
+  <p th:text="'Amount: ' + ${amount}"></p>
+  <p th:text="'Tax amount: ' + ${tax}"></p>
+  <p th:text="'Total: ' + ${total}"></p>
+  <a href="https://buy.stripe.com/test_6oE4gI8M63ib7Oo6oo"><button>Pay with Cash</button></a>
+</div>
+
+</body>
+</html>

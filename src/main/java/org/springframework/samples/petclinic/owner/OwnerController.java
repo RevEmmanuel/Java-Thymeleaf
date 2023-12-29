@@ -21,6 +21,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -82,6 +83,23 @@ class OwnerController {
 	@GetMapping("/owners/find")
 	public String initFindForm() {
 		return "owners/findOwners";
+	}
+
+	@GetMapping("/owners/login")
+	public String loginInit() {
+		return "owners/login_owners";
+	}
+
+	@PostMapping("/owners-login")
+	public String loginOwners(@RequestParam String username, @RequestParam String password, Model model) {
+		// Validate username and password (perform authentication logic here)
+		Owner foundOwner = owners.findByFirstName(username);
+		if (foundOwner.getFirstName().equals(username) && foundOwner.getPassword().equals(password)) {
+			return "redirect:/owners";
+		} else {
+			model.addAttribute("error", "Invalid username or password");
+			return "owners/login_owners";
+		}
 	}
 
 	@GetMapping("/owners")

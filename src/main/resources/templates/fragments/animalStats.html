@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'animalStats')}">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Animal Stats</title>
+</head>
+
+<body>
+<h1>Animal Stats</h1>
+<form id="animalForm">
+  <label for="animalInput">Enter an animal:</label>
+  <input type="text" id="animalInput" required>
+  <button type="submit">Get Animal Stats</button>
+</form>
+<div id="animalStats"></div>
+
+<script>
+  document.getElementById('animalForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const apiKey = 'rt7bl/hcmrhKJY7y00TvgQ==vEXXbEb0sw3j6aX7';
+    const animal = document.getElementById('animalInput').value;
+    const url = `https://api.api-ninjas.com/v1/animals?name=${animal}`;
+    const headers = new Headers({
+      'X-Api-Key': apiKey
+    });
+    const options = {
+      method: 'GET',
+      headers: headers
+    };
+
+    fetch(url, options)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          const animalInfo = data[0];
+          const animalStatsDiv = document.getElementById('animalStats');
+          animalStatsDiv.innerHTML = `
+                            <h2>${animalInfo.name}</h2>
+                            <p><strong>Scientific Name:</strong> ${animalInfo.taxonomy.scientific_name}</p>
+                            <p><strong>Locations:</strong> ${animalInfo.locations.join(', ')}</p>
+                            <p><strong>Taxonomy:</strong></p>
+                            <ul>
+                                <li><strong>Kingdom:</strong> ${animalInfo.taxonomy.kingdom}</li>
+                                <li><strong>Phylum:</strong> ${animalInfo.taxonomy.phylum}</li>
+                                <li><strong>Class:</strong> ${animalInfo.taxonomy.class}</li>
+                                <li><strong>Order:</strong> ${animalInfo.taxonomy.order}</li>
+                                <li><strong>Family:</strong> ${animalInfo.taxonomy.family}</li>
+                                <li><strong>Genus:</strong> ${animalInfo.taxonomy.genus}</li>
+                                <li><strong>Scientific Name:</strong> ${animalInfo.taxonomy.scientific_name}</li>
+                            </ul>
+                            <p><strong>Characteristics:</strong></p>
+                            <ul>
+                                <li><strong>Top Speed:</strong> ${animalInfo.characteristics.top_speed}</li>
+                                <li><strong>Biggest Threat:</strong> ${animalInfo.characteristics.biggest_threat}</li>
+                                <li><strong>Name of young:</strong> ${animalInfo.characteristics.name_of_young}</li>
+                                <li><strong>Slogan:</strong> ${animalInfo.characteristics.slogan}</li>
+                                <li><strong>Color:</strong> ${animalInfo.characteristics.color}</li>
+                                <li><strong>Habitat:</strong> ${animalInfo.characteristics.habitat}</li>
+                            </ul>
+                        `;
+        } else {
+          const animalStatsDiv = document.getElementById('animalStats');
+          animalStatsDiv.innerHTML = '<p>Animal not found. Please try another name.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        const animalStatsDiv = document.getElementById('animalStats');
+        animalStatsDiv.innerHTML = '<p>Error fetching animal stats. Please try again.</p>';
+      });
+  });
+</script>
+</body>
+
+</html>

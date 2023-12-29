@@ -23,6 +23,7 @@ import org.springframework.data.repository.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Repository class for <code>Vet</code> domain objects All method names are compliant
@@ -45,6 +46,10 @@ public interface VetRepository extends Repository<Vet, Integer> {
 	@Cacheable("vets")
 	Collection<Vet> findAll() throws DataAccessException;
 
+	@Transactional(readOnly = true)
+	@Cacheable("vets")
+	Vet findById(Integer id) throws DataAccessException;
+
 	/**
 	 * Retrieve all <code>Vet</code>s from data store in Pages
 	 * @param pageable
@@ -54,5 +59,9 @@ public interface VetRepository extends Repository<Vet, Integer> {
 	@Transactional(readOnly = true)
 	@Cacheable("vets")
 	Page<Vet> findAll(Pageable pageable) throws DataAccessException;
+
+	@Transactional(readOnly = true)
+	@Cacheable("vets")
+	Vet findVetByFirstName(String firstName) throws DataAccessException;
 
 }
